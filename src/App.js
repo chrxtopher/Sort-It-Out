@@ -1,9 +1,9 @@
-import Home from "./components/Home";
+import SortingGraph from "./components/SortingGraph";
 
 function App() {
   return (
     <div>
-      <Home />
+      <SortingGraph />
     </div>
   );
 }
