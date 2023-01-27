@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import GraphBar from "./GraphBar";
 
 function SortingGraph({ algorithm }) {
+  const [message, setMessage] = useState("Ready");
   const [numberArray, setNumberArray] = useState(
     new Array(150)
       .fill(0)
@@ -17,6 +18,7 @@ function SortingGraph({ algorithm }) {
       .fill(0)
       .map((number) => Math.floor(Math.random() * (650 - 10) + 10));
     setNumberArray(numberArray.map((number, index) => newArray[index]));
+    setMessage("Ready");
   };
 
   const handleSortClick = () => {
@@ -44,7 +46,9 @@ function SortingGraph({ algorithm }) {
   /////////////////
 
   const bubbleSort = async (array) => {
+    setMessage("Sorting");
     for (let i = 0; i < array.length; i++) {
+      if (i === array.length - 1) setMessage("Sorted");
       for (let j = 0; j < array.length - i - 1; j++) {
         await pause();
         if (array[j] > array[j + 1]) {
@@ -59,17 +63,37 @@ function SortingGraph({ algorithm }) {
 
   return (
     <div className="sorting-graph">
-      <h1>{algorithm}</h1>
-      <button onClick={handleNewArrayClick}>New Array</button>
-      <button onClick={handleSortClick}>Sort</button>
+      <h1>
+        {algorithm} -- {message}
+      </h1>
+      <button
+        onClick={handleNewArrayClick}
+        disabled={message === "Sorting" ? true : false}
+      >
+        New Array
+      </button>
+      <button
+        onClick={handleSortClick}
+        disabled={message === "Sorting" || message === "Sorted" ? true : false}
+      >
+        Sort
+      </button>
       <div className="graph">
-        {numberArray.map((number) => (
-          <GraphBar
-            value={number}
-            color="pink"
-            width={determineWidth(numberArray.length)}
-          />
-        ))}
+        {numberArray.map((number) =>
+          message === "Sorted" ? (
+            <GraphBar
+              value={number}
+              color="limegreen"
+              width={determineWidth(numberArray.length)}
+            />
+          ) : (
+            <GraphBar
+              value={number}
+              color="pink"
+              width={determineWidth(numberArray.length)}
+            />
+          )
+        )}
       </div>
     </div>
   );
