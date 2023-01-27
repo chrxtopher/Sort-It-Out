@@ -1,10 +1,10 @@
 import React from "react";
 
-function GraphBar({ value, color }) {
+function GraphBar({ value, color, width }) {
   return (
     <div
       style={{
-        width: "1px",
+        width: `${width}px`,
         height: `${value}px`,
         background: color,
       }}
