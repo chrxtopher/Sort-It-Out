@@ -12,7 +12,6 @@ function Home() {
   return (
     <div>
       <header>
-        <h1>{activeAlgorithm}</h1>
         <button
           type="button"
           className="change-sort-button"
