@@ -1,4 +1,4 @@
-function BubbleSort(numbersArray) {
+function bubbleSort(numbersArray) {
   // uncomment console logs to see what is happening at each step
   for (let i = 0; i < numbersArray.length; i++) {
     // console.log(numbersArray);
@@ -18,7 +18,7 @@ function BubbleSort(numbersArray) {
   return numbersArray;
 }
 
-export default BubbleSort;
+export default bubbleSort;
 
 // Testing Below //
 
