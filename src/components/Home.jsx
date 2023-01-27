@@ -8,7 +8,6 @@ function Home() {
     e.preventDefault();
     setActiveAlgorithm(e.target.value);
   };
-
   return (
     <div>
       <header>
