@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import GraphBar from "./GraphBar";
 
-function SortingGraph({ algorithm }) {
+function SortingGraph() {
+  const [activeAlgorithm, setActiveAlgorithm] = useState("Bubble Sort");
   const [message, setMessage] = useState("Ready");
   const [numberArray, setNumberArray] = useState(
     new Array(150)
@@ -11,6 +12,11 @@ function SortingGraph({ algorithm }) {
 
   const pause = (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
+  const handleSortChange = (e) => {
+    e.preventDefault();
+    setActiveAlgorithm(e.target.value);
   };
 
   const handleNewArrayClick = () => {
@@ -63,33 +69,64 @@ function SortingGraph({ algorithm }) {
 
   return (
     <div className="sorting-graph">
-      <h1>
-        {algorithm} -- {message}
-      </h1>
-      <button
-        onClick={handleNewArrayClick}
-        disabled={message === "Sorting" ? true : false}
-      >
-        New Array
-      </button>
-      <button
-        onClick={handleSortClick}
-        disabled={message === "Sorting" || message === "Sorted" ? true : false}
-      >
-        Sort
-      </button>
+      <header>
+        <div className="sort-selection-buttons">
+          <button
+            className="change-sort-button"
+            value="Bubble Sort"
+            onClick={handleSortChange}
+          >
+            Bubble Sort
+          </button>
+          <button
+            type="button"
+            className="change-sort-button"
+            value="Quick Sort"
+            onClick={handleSortChange}
+          >
+            Quick Sort
+          </button>
+          <button
+            className="change-sort-button"
+            value="Merge Sort"
+            onClick={handleSortChange}
+          >
+            Merge Sort
+          </button>
+        </div>
+        <h1>
+          {activeAlgorithm} -- {message}
+        </h1>
+        <div className="header-buttons">
+          <button
+            onClick={handleNewArrayClick}
+            disabled={message === "Sorting" ? true : false}
+          >
+            New Array
+          </button>
+          <button
+            onClick={handleSortClick}
+            disabled={
+              message === "Sorting" || message === "Sorted" ? true : false
+            }
+          >
+            Sort
+          </button>
+        </div>
+      </header>
+
       <div className="graph">
         {numberArray.map((number) =>
           message === "Sorted" ? (
             <GraphBar
               value={number}
-              color="limegreen"
+              color="lightgreen"
               width={determineWidth(numberArray.length)}
             />
           ) : (
             <GraphBar
               value={number}
-              color="pink"
+              color="lightsalmon"
               width={determineWidth(numberArray.length)}
             />
           )
