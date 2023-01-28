@@ -51,7 +51,7 @@ function SortingGraph() {
     } else if (total >= 175) {
       return 5;
     } else {
-      return 10;
+      return 6;
     }
   };
 
