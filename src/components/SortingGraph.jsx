@@ -4,6 +4,10 @@ import GraphBar from "./GraphBar";
 function SortingGraph() {
   const [activeAlgorithm, setActiveAlgorithm] = useState("Bubble Sort");
   const [message, setMessage] = useState("Ready");
+  const [speed, setSpeed] = useState(5);
+
+  // creates an array of objects; value key is given a random number between 10-650
+  // the value given will determine the length of the associated GraphBar
   const [numberArray, setNumberArray] = useState(
     new Array(150).fill({}).map((item) => ({
       active: false,
@@ -11,8 +15,7 @@ function SortingGraph() {
     }))
   );
 
-  const [speed, setSpeed] = useState(5);
-
+  // utilizes setTimeout function to slow down each algorithm for visualization purposes
   const pause = (ms) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   };
@@ -39,6 +42,8 @@ function SortingGraph() {
     setSpeed(e.target.value);
   };
 
+  // used to pass a width prop argument to each GraphBar component - determined by array size
+  // helps larger arrays to fit properly on the screen
   const determineWidth = (total) => {
     if (total >= 850) {
       return 1;
@@ -64,6 +69,7 @@ function SortingGraph() {
     for (let i = 0; i < array.length; i++) {
       if (i === array.length - 1) setMessage("Sorted");
       for (let j = 0; j < array.length - i - 1; j++) {
+        // active set to true/false to determine which array indexes are being compared
         array[j].active = true;
         array[j + 1].active = true;
         await pause(speed);
@@ -80,6 +86,10 @@ function SortingGraph() {
       }
     }
   };
+
+  //////////////////
+  // Return Below //
+  //////////////////
 
   return (
     <div className="sorting-graph">
