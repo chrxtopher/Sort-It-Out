@@ -9,7 +9,7 @@ function SortingGraph() {
   // creates an array of objects; value key is given a random number between 10-650
   // the value given will determine the length of the associated GraphBar
   const [numberArray, setNumberArray] = useState(
-    new Array(150).fill({}).map((item) => ({
+    new Array(50).fill({}).map((item) => ({
       active: false,
       value: Math.floor(Math.random() * (650 - 10) + 10),
     }))
@@ -26,7 +26,7 @@ function SortingGraph() {
   };
 
   const handleNewArrayClick = () => {
-    const newArray = new Array(150).fill({}).map((item) => ({
+    const newArray = new Array(50).fill({}).map((item) => ({
       active: false,
       value: Math.floor(Math.random() * (650 - 10) + 10),
     }));
@@ -35,7 +35,12 @@ function SortingGraph() {
   };
 
   const handleSortClick = () => {
-    bubbleSort(numberArray);
+    if (activeAlgorithm === "Merge Sort") {
+      const sorted = mergeSort(compare, numberArray);
+      setNumberArray(numberArray.map((number, index) => sorted[index]));
+    } else {
+      bubbleSort(numberArray);
+    }
   };
 
   const handleSpeedChange = (e) => {
@@ -86,6 +91,63 @@ function SortingGraph() {
       }
     }
   };
+
+  ////////////////
+  // Merge Sort //
+  ////////////////
+
+  const mergeSort = (compare, arrayOfElements) => {
+    if (Array.isArray(arrayOfElements)) {
+      if (arrayOfElements.length <= 1) {
+        return arrayOfElements;
+      }
+
+      const middle = Math.floor(arrayOfElements.length / 2);
+
+      const leftHalf = arrayOfElements.slice(0, middle);
+      const rightHalf = arrayOfElements.slice(middle);
+
+      const leftHalfSorted = mergeSort(compare, leftHalf);
+      const rightHalfSorted = mergeSort(compare, rightHalf);
+
+      return merge(compare, leftHalfSorted, rightHalfSorted);
+    }
+
+    return arrayOfElements;
+  };
+
+  /////////////
+  // HELPERS //
+  /////////////
+
+  function compare(leftElement, rightElement) {
+    return leftElement - rightElement;
+  }
+
+  function merge(compare, left, right) {
+    const sorted = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+
+    while (leftIndex < left.length && rightIndex < right.length) {
+      const comparison = compare(
+        left[leftIndex].value,
+        right[rightIndex].value
+      );
+
+      if (comparison <= 0) {
+        sorted.push(left[leftIndex]);
+        leftIndex++;
+      } else {
+        sorted.push(right[rightIndex]);
+        rightIndex++;
+      }
+    }
+
+    return sorted.concat(
+      leftIndex < left.length ? left.slice(leftIndex) : right.slice(rightIndex)
+    );
+  }
 
   //////////////////
   // Return Below //
